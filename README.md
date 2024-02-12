@@ -1,9 +1,9 @@
-# Best Bank React - v1
+# Best Bank
 
 ## About
 
-This project is for Scrimba Bootcamp group project phase one.
-I wanted to try a different design and went with [Neubrutalism](https://hype4.academy/articles/design/neubrutalism-is-taking-over-web).
+This project is for Scrimba Bootcamp group project.
+The design used is [Neubrutalism](https://hype4.academy/articles/design/neubrutalism-is-taking-over-web).
 
 ## Using
 
@@ -20,6 +20,6 @@ I wanted to try a different design and went with [Neubrutalism](https://hype4.ac
 - SpendingList - List of the account spendings
 - SpendingBar - The bars for SpendingList
 
-## TODOs
+## Contributing
 
-- Load Account data to localstorage and/or Firebase
+See the [CONTRIBUTING](CONTRIBUTING.md) page for how to contribute to our project and the contribution guidelines.
