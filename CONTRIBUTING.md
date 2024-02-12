@@ -1,5 +1,5 @@
 ### First time contributing? Do this:
-1. Browse to the project GitHub repository URL: <https://github.com/shantdashjian/best-bank>
+1. Browse to the project GitHub repository URL: <https://github.com/Scrimba-Bootcamp-Team-Projects/best-bank>
 2. Fork it to your GitHub account.
 3. Go to your GitHub account and find your forked repository of the project.
 4. There copy the link to the forked repository.
@@ -10,7 +10,7 @@ git clone https://github.com/your-user-name-here/best-bank
 6. Add a remote to the **upstream**, i.e. original repository of the project so that you can get the latest changes 
    in its **main** branch before you start working on a change.
 <pre>
-git remote add upstream https://github.com/shantdashjian/best-bank
+git remote add upstream https://github.com/Scrimba-Bootcamp-Team-Projects/best-bank
 </pre>
 7. Now when you enter `git remote -v`, you should see 4 lines, 2 for your forked `origin` remote, and 2 for the `upstream` 
    remote.
