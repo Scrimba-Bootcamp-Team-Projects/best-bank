@@ -1,5 +1,4 @@
 import React from 'react'
-import Header from "../components/Header/Header";
 import Button from "../components/Button/Button";
 import AccountCard from "../components/AccountCard/AccountCard";
 import SpendingList from "../components/SpendingList/SpendingList";
@@ -20,23 +19,21 @@ export default function HomePage() {
   });
 
     return (
-        <>
-            <Header />
-            <main>
-                <div className={[styles.buttonContainer, styles.diagonal].join(" ")}>
-                    <Button>Pay</Button>
-                    <Button>Transfer</Button>
-                </div>
-                <div className={styles.listContainer}>
-                    <section className={styles.accountList}>
-                        <h2>Accounts</h2>
-                        {accountList}
-                    </section>
-                    <section className={[styles.barList, styles.diagonal].join(" ")}>
-                        <SpendingList accounts={accounts} />
-                    </section>
-                </div>
-            </main>
-      </>
+
+        <main>
+            <div className={[styles.buttonContainer, styles.diagonal].join(" ")}>
+                <Button>Pay</Button>
+                <Button>Transfer</Button>
+            </div>
+            <div className={styles.listContainer}>
+                <section className={styles.accountList}>
+                    <h2>Accounts</h2>
+                    {accountList}
+                </section>
+                <section className={[styles.barList, styles.diagonal].join(" ")}>
+                    <SpendingList accounts={accounts} />
+                </section>
+            </div>
+        </main>
     )
 }
