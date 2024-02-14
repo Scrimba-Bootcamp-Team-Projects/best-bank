@@ -37,7 +37,7 @@ git commit -m "BB-12 summary of commit"
 
 **Why add the issue number at the beginning?** 
 
-Because the pull request you will soon create, or **PR**, will be titled the same as the commit. And as such, GitHub will automatically **link** your PR to that issue.
+Note that the pull request you will soon create, or **PR**, will be titled based on the commit message if it's one commit, or the branch name if there is more than one commit. GitHub will automatically **link** your PR to that issue.
 
 
 12.   Now push the change to your `origin` remote:
@@ -47,7 +47,7 @@ git push --set-upstream origin your-feature-branch-name
 13.   Go back to the forked repository on your GitHub account, and you should now see a `Compare & pull request` 
     button at the top. Click on it.
 
-14. A PR page should appear. Use the issue key in the pull request title. In it you could add further details about the PR. When ready, click on `Create pull request`. That's it. 
+14. A PR page should appear. Ensure the issue key is in the pull request title. You could add further details about the PR. When ready, click on `Create pull request`. That's it. 
 
 15. A maintainer of the project will take a look at your PR, and if all looks good, will accept the request and merge your change(s) to the `main` branch and close the PR. 
 4.   When you see the changes got marged and the PR got closed, you can delete the local change branch you created for working on the change, using:
