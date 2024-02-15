@@ -53,21 +53,16 @@ export default function HomePage() {
   }, []);
 
   // Map over the accounts and create an AccountCard for each account
-  const accountList = accountData.map((data) => {
-    let accountsArr = []
-    accountsArr.push(data.Main_Account,data.Savings,data.Expenses)
-    
-    return (accountsArr.map(account=>(
+  const accountsArr= [accountData[0]?.Main_Account, accountData[0]?.Savings,accountData[0]?.Expenses]
+  const accountList = accountsArr.map((account) => {
+    return (
       <AccountCard
-      key={account.id}
-      title={account.title}
-      balance={setUsdCurrency(account.balance)}
-    />
-    ))
-      
-      
-    );
-  });
+        key={account.id}
+        title={account.title}
+        balance={setUsdCurrency(account.balance)}
+      />
+      )
+ });
 
   return (
     <main>
@@ -78,7 +73,7 @@ export default function HomePage() {
       <div className={styles.listContainer}>
         <section className={styles.accountList}>
           <h2>Accounts</h2>
-          {accountList}
+          {accountData && accountList}
         </section>
         <section className={[styles.barList, styles.diagonal].join(" ")}>
           <SpendingList accounts={accounts} />
