@@ -7,7 +7,7 @@ export default function AccountCard({ title, balance }) {
   return (
     <div className={styles.container}>
       <h4 className={styles.accountTitle}>{title}</h4>
-      <span>${balance}</span>
+      <span>{balance}</span>
     </div>
   );
 }

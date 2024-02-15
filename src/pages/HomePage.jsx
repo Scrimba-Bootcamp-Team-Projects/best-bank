@@ -6,6 +6,7 @@ import accounts from "../data";
 import styles from "../App.module.css";
 import { getDocs, collection } from "firebase/firestore";
 import { db } from "../config/firebase";
+import {setUsdCurrency} from "../utilities"
 
 export default function HomePage() {
   const [accountData, setAccountData] = React.useState([]);
@@ -46,17 +47,25 @@ export default function HomePage() {
         accountData.push(doc.data());
       });
       setAccountData(accountData);
-    });
+      
+  })
+   
   }, []);
 
   // Map over the accounts and create an AccountCard for each account
-  const accountList = accounts.map((account) => {
-    return (
+  const accountList = accountData.map((data) => {
+    let accountsArr = []
+    accountsArr.push(data.Main_Account,data.Savings,data.Expenses)
+    
+    return (accountsArr.map(account=>(
       <AccountCard
-        key={account.id}
-        title={account.title}
-        balance={account.balance}
-      />
+      key={account.id}
+      title={account.title}
+      balance={setUsdCurrency(account.balance)}
+    />
+    ))
+      
+      
     );
   });
 
