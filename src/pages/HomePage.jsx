@@ -73,7 +73,7 @@ export default function HomePage() {
       <div className={styles.listContainer}>
         <section className={styles.accountList}>
           <h2>Accounts</h2>
-          {accountData && accountList}
+          {accountData ? accountList : "No accounts are available at this time"}
         </section>
         <section className={[styles.barList, styles.diagonal].join(" ")}>
           <SpendingList accounts={accounts} />
