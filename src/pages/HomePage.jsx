@@ -39,22 +39,37 @@ export default function HomePage() {
         },
       }
     */
-    getDocs(collection(db, "accounts")).then((querySnapshot) => {
-      const accountData = [];
-      querySnapshot.forEach((doc) => {
+      getDocs(collection(db, "accounts"))
+      .then((querySnapshot) => {
+        const data = querySnapshot.docs.map((doc) => doc.data());
+        setAccountData(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+
+
+
+    // getDocs(collection(db, "accounts")).then((querySnapshot) => {
+    //   const accountData = [];
+    //   querySnapshot.forEach((doc) => {
         // doc.data() is never undefined for query doc snapshots
         // So if there is no data it return an empty array
-        accountData.push(doc.data());
-      });
-      setAccountData(accountData);
-      
-  })
+  //       accountData.push(doc.data());
+  //     });
+  //     setAccountData(accountData);
+  // })
    
   }, []);
 
-  // Map over the accounts and create an AccountCard for each account
-  const accountsArr= [accountData[0]?.Main_Account, accountData[0]?.Savings,accountData[0]?.Expenses]
-  const accountList = accountsArr.map((account) => {
+  const accountsArr = [
+    accountData[0]?.mainAccount, 
+    accountData[0]?.expenses, 
+    accountData[0]?.savings
+  ];
+// Map over the accounts and create an AccountCard for each account
+const accountList = accountsArr.map((account) => {
+  if (account){
     return (
       <AccountCard
         key={account.id}
@@ -62,7 +77,11 @@ export default function HomePage() {
         balance={setUsdCurrency(account.balance)}
       />
       )
- });
+  } else {
+    return null
+  }
+  
+});
 
   return (
     <main>
@@ -82,3 +101,7 @@ export default function HomePage() {
     </main>
   );
 }
+
+
+
+
