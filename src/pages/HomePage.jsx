@@ -12,33 +12,7 @@ export default function HomePage() {
   const [accountData, setAccountData] = React.useState([]);
 
   React.useEffect(() => {
-    /* 
-      This query will get all of the accounts even though right now we only have one
-      account in our database. This will have to be updated when we have
-      multiple accounts and when we add the login feature
-
-      accountData will end up with an array of objects that look like this
-      {
-        "Name": "John Doe",
-        "Email": "john.doe@testmail.com",
-        "Password": "password1",
-        "Main Account": {
-            "balance": 6700.56,
-            "id": 1,
-            "spendings": [] 
-        },
-        "Savings": {
-            "id": 3,
-            "balance": 36500.12,
-            "spendings": []
-        },
-        "Expenses": {
-            "spendings": [],
-            "balance": 5134.63,
-            "id": 2
-        },
-      }
-    */
+    
       getDocs(collection(db, "accounts"))
       .then((querySnapshot) => {
         const data = querySnapshot.docs.map((doc) => doc.data());
@@ -47,26 +21,15 @@ export default function HomePage() {
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-
-
-
-    // getDocs(collection(db, "accounts")).then((querySnapshot) => {
-    //   const accountData = [];
-    //   querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        // So if there is no data it return an empty array
-  //       accountData.push(doc.data());
-  //     });
-  //     setAccountData(accountData);
-  // })
-   
   }, []);
 
+  
   const accountsArr = [
     accountData[0]?.mainAccount, 
     accountData[0]?.expenses, 
     accountData[0]?.savings
   ];
+
 // Map over the accounts and create an AccountCard for each account
 const accountList = accountsArr.map((account) => {
   if (account){
