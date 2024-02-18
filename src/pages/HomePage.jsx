@@ -57,9 +57,6 @@ const accountList = accountsArr.map((account) => {
           <h2>Accounts</h2>
           {accountData ? accountList : "No accounts are available at this time"}
         </section>
-        <section className={[styles.barList, styles.diagonal].join(" ")}>
-          <SpendingList accounts={accounts} />
-        </section>
       </div>
     </main>
   );
