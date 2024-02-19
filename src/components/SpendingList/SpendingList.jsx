@@ -4,7 +4,7 @@ import SpendingBar from "../SpendingBar/SpendingBar";
 import styles from "./SpendingList.module.css";
 import { setUsdCurrency } from "../../utilities";
 
-export default function SpendingList({ spendingData = [{category: "Rent", spent: "1450"},{category: "Food", spent: "300"}, {category: "Netflix", spent: "20"}] }) {
+export default function SpendingList({ spendingData}) {
     // max is the maximum amount spent in any category
     let max = Math.max(
       ...spendingData.map((categoryObj) => {

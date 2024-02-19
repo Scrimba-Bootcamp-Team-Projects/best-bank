@@ -3,9 +3,9 @@
 import PropTypes from "prop-types";
 import styles from "./AccountCard.module.css";
 
-export default function AccountCard({ title, balance }) {
+export default function AccountCard({ title, balance, onClick }) {
   return (
-    <div className={styles.container}>
+    <div className={styles.container} onClick={onClick}>
       <h4 className={styles.accountTitle}>{title}</h4>
       <span>{balance}</span>
     </div>
