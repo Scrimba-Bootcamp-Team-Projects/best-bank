@@ -43,17 +43,9 @@ export default function Login({onSubmit}){
                 <h1 className={styles.title}>Best Bank</h1>
             </div>
         </header>
-        <div className={styles.ssoContainer}>
-                <Button >
-                    <FaGoogle /> Login with Google 
-                </Button>
-                <Button >
-                    <FaApple /> Login with Apple
-                </Button>
-            </div>
         <form onSubmit={handleSubmit} className={styles.formContainer}>
             <fieldset className={styles.formOptContainer}>
-                <label htmlFor="email">E-mail</label>
+                <label htmlFor="email">Username</label>
                 <input 
                 type="email" 
                 placeholder="enter your email"
@@ -72,10 +64,6 @@ export default function Login({onSubmit}){
                 onChange={handleChange}
                 value={formData.password}/>
             </fieldset>
-            <div className={styles.otherOptionsContainer}>
-                <a href="#">Forgot username/password</a>
-                <a href="#">Not enrolled? Sign up now.</a>
-            </div>
             <Button type="submit">Submit</Button>
         </form>
         </>
