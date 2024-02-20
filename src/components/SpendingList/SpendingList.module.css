@@ -9,3 +9,10 @@
   font-size: var(--text-size-200);
   font-weight: 700;
 }
+
+.noSpending {
+  text-align: center;
+  font-size: var(--text-size-300);
+  font-weight: 700;
+  color: white;
+}

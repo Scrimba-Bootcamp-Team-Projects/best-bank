@@ -26,6 +26,10 @@
   padding-inline: 2em;
 }
 
+.barList h2 {
+  color: white;
+}
+
 .diagonal {
   --skew-angle: -2deg;
   --background: linear-gradient(45deg, var(--paynes-gray), var(--blue-gray));
