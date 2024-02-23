@@ -1,0 +1,39 @@
+.logoutContainer,
+.btnContainer{
+    display: flex;
+}
+
+.logoutContainer{
+    width: 600px;
+    height: 250px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position:fixed;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 20px;
+    z-index: 3;
+    box-shadow: 4px 4px var(--gunmetal);
+    border: 4px solid black;
+    background: #f7f7f8;
+}
+
+p{
+    font-size: var(--text-size-600);
+}
+
+.btnContainer{
+    width: 100%;
+    padding: 0 1em;
+    align-items:center;
+    justify-content: space-around;
+}
+
+.logoutBtn{
+    width: 25%;
+    margin-top: 1em;
+    font-size: var(--text-size-400);
+    box-shadow: 4px 4px var(--gunmetal)
+}
+
