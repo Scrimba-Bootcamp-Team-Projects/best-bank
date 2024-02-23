@@ -3,53 +3,36 @@ import Button from "../components/Button/Button";
 import AccountCard from "../components/AccountCard/AccountCard";
 import SpendingList from "../components/SpendingList/SpendingList";
 import styles from "../App.module.css";
-import { getDocs, collection } from "firebase/firestore";
-import { db } from "../config/firebase";
-import {setUsdCurrency} from "../utilities"
+import { setUsdCurrency } from "../utilities";
 
-export default function HomePage() {
-  const [accountData, setAccountData] = React.useState([]);
-  const [spendings, setSpendings] = React.useState(null)
+export default function HomePage({ userData }) {
+  const [spendings, setSpendings] = React.useState(null);
 
-  React.useEffect(() => {
-    
-      getDocs(collection(db, "accounts"))
-      .then((querySnapshot) => {
-        const data = querySnapshot.docs.map((doc) => doc.data());
-        setAccountData(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  }, []);
-
-  
   const accountsArr = [
-    accountData[0]?.mainAccount, 
-    accountData[0]?.expenses, 
-    accountData[0]?.savings
+    userData?.mainAccount,
+    userData?.expenses,
+    userData?.savings,
   ];
 
   function showSpendings(spendings) {
-      setSpendings(spendings)
+    setSpendings(spendings);
   }
 
-// Map over the accounts and create an AccountCard for each account
-const accountList = accountsArr.map((account) => {
-  if (account){
-    return (
-      <AccountCard
-        key={account.id}
-        title={account.title}
-        balance={setUsdCurrency(account.balance)}
-        onClick={() => showSpendings(account.spendings)}
-      />
-      )
-  } else {
-    return null
-  }
-  
-});
+  // Map over the accounts and create an AccountCard for each account
+  const accountList = accountsArr.map((account) => {
+    if (account) {
+      return (
+        <AccountCard
+          key={account.id}
+          title={account.title}
+          balance={setUsdCurrency(account.balance)}
+          onClick={() => showSpendings(account.spendings)}
+        />
+      );
+    } else {
+      return null;
+    }
+  });
 
   return (
     <main>
@@ -60,20 +43,15 @@ const accountList = accountsArr.map((account) => {
       <div className={styles.listContainer}>
         <section className={styles.accountList}>
           <h2>Accounts</h2>
-          {accountData ? accountList : "No accounts are available at this time"}
+          {userData ? accountList : "No accounts are available at this time"}
         </section>
-        { spendings &&  
-          <section className = {[styles.barList, styles.diagonal].join(" ")}>
+        {spendings && (
+          <section className={[styles.barList, styles.diagonal].join(" ")}>
             <h2>Spendings</h2>
-            <SpendingList spendingData={spendings}/>
+            <SpendingList spendingData={spendings} />
           </section>
-        }    
-      
+        )}
       </div>
     </main>
   );
 }
-
-
-
-
