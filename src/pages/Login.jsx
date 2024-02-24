@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "../components/Button/Button";
 import styles from "../App.module.css";
-import { FaGoogle, FaApple } from "react-icons/fa";
+
 
 export default function Login({ onSubmit, didLoginFail }) {
   const [formData, setFormData] = React.useState({
