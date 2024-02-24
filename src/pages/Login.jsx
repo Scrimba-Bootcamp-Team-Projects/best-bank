@@ -66,7 +66,7 @@ export default function Login({ onSubmit, didLoginFail }) {
             value={formData.password}
           />
         </fieldset>
-        <Button type="submit">Submit</Button>
+        <Button type="submit">Login</Button>
       </form>
     </>
   );
