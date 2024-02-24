@@ -3,8 +3,11 @@
 import React from "react"
 import { Link } from "react-router-dom"
 import styles from "./Header.module.css";
+import Button from "../Button/Button";
 
-export default function Header() {
+export default function Header({onLogout}) {
+
+
   return (
     <header className={styles.header}>
       <div className={styles.titleContainer}>
@@ -36,6 +39,7 @@ export default function Header() {
         <Link className={styles.buttonLikeLink} href="#">
           Stocks
         </Link>
+        <Button className={styles.buttonLogout} onClick={onLogout}>Logout</Button>
       </nav>
     </header>
   );
