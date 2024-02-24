@@ -11,7 +11,14 @@ import { db } from "./config/firebase";
 export default function App() {
   const [userData, setUserData] = React.useState([]);
   const [didLoginFail, setDidLoginFail] = React.useState(false);
-  const [logOut, setLogOut]= React.useState(false)
+  const [logOut, setLogOut]= React.useState(false);
+
+  React.useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user-credentials"))
+    if(user){
+      handleSubmit(user)
+    }
+  },[])
 
   async function handleSubmit(data) {
     const q = query(
@@ -24,6 +31,9 @@ export default function App() {
 
     if (!querySnapshot.empty) {
       setUserData(querySnapshot.docs[0].data());
+      //if user is identified, save user-credentials to local storage
+      localStorage.setItem("user-credentials", JSON.stringify(data));
+
     } else {
       setDidLoginFail(true);
     }
@@ -35,6 +45,7 @@ export default function App() {
 
   function handleLogout(){
     setUserData([])
+    localStorage.removeItem("user-credentials")
     setLogOut(prevLogout=>!prevLogout)
 
   }
