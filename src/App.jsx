@@ -1,72 +1,56 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth, db } from "./config/firebase"; // Ensure db is exported from firebase.js
+import { doc, getDoc } from "firebase/firestore";
 import Header from "./components/Header/Header";
 import Login from "./pages/Login";
 import HomePage from "./pages/HomePage";
 import Payments from "./pages/Payments";
-import Logout from "./components/Logout/Logout"
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { getDocs, collection, query, where } from "firebase/firestore";
-import { db } from "./config/firebase";
 
 export default function App() {
-  const [userData, setUserData] = React.useState([]);
-  const [didLoginFail, setDidLoginFail] = React.useState(false);
-  const [logOut, setLogOut]= React.useState(false);
+  const [user, setUser] = useState(null); // Store the user object
+  const [userData, setUserData] = useState(null); // Store user-specific data from Firestore
 
-  React.useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user-credentials"))
-    if(user){
-      handleSubmit(user)
-    }
-  },[])
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      setUser(user);
+      if (user) {
+        try {
+          // Fetch user data from Firestore
+          const userRef = doc(db, "accounts", user.uid); // Adjust "users" to your specific collection
+          const userSnap = await getDoc(userRef);
+          if (userSnap.exists()) {
+            setUserData(userSnap.data()); // Set user data if document exists
+          } else {
+            console.log("No such document!");
+            // Handle case where user document doesn't exist
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+          // Handle error fetching user data from Firestore
+        }
+      } else {
+        setUserData(null); // Reset user data if not authenticated
+      }
+    });
 
-  async function handleSubmit(data) {
-    const q = query(
-      collection(db, "accounts"),
-      where("email", "==", data.email),
-      where("password", "==", data.password),
-    );
+    return () => unsubscribe(); // Cleanup subscription
+  }, []);
 
-    const querySnapshot = await getDocs(q);
-
-    if (!querySnapshot.empty) {
-      setUserData(querySnapshot.docs[0].data());
-      //if user is identified, save user-credentials to local storage
-      localStorage.setItem("user-credentials", JSON.stringify(data));
-
-    } else {
-      setDidLoginFail(true);
-    }
-  }
-
-  function displayLogout(){
-   setLogOut(prevLogout=>!prevLogout)
-  }
-
-  function handleLogout(){
-    setUserData([])
-    localStorage.removeItem("user-credentials")
-    setLogOut(prevLogout=>!prevLogout)
-
-  }
-
-  function cancelLogout(){
-    setLogOut(prevLogout=>!prevLogout)
-  } 
-
-  return Object.keys(userData).length > 0 ? (
+  return (
     <BrowserRouter>
-      <Header 
-      onLogout={displayLogout}/>
-      {logOut && <Logout 
-      onYesClick={handleLogout}
-      onNoClick={cancelLogout}/>}
-      <Routes>
-        <Route path="/" element={<HomePage userData={userData} />} />
-        <Route path="/payments" element={<Payments />} />
-      </Routes>
+      {user ? (
+        <>
+          <Header />
+          <Routes>
+            <Route path="/" element={<HomePage userData={userData} />} />
+            <Route path="/payments" element={<Payments />} />
+          </Routes>
+        </>
+      ) : (
+        <Login />
+      )}
     </BrowserRouter>
-  ) : (
-    <Login onSubmit={handleSubmit} didLoginFail={didLoginFail} />
   );
 }
