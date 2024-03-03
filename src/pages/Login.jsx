@@ -1,37 +1,27 @@
-import React from "react";
-import Button from "../components/Button/Button";
+import React, { useState } from "react";
+import { ui, uiConfig, login } from '../config/firebase';
 import styles from "../App.module.css";
+import Button from "../components/Button/Button";
 
+export default function Login() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loginFailed, setLoginFailed] = useState(false);
 
-export default function Login({ onSubmit, didLoginFail }) {
-  const [formData, setFormData] = React.useState({
-    email: "",
-    password: "",
-  });
-
-  function handleChange(event) {
-    const { name, value } = event.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
-  }
-
-  function handleSubmit(event) {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const isFormValid = formData.email && formData.password;
-
-    isFormValid
-      ? (onSubmit(formData),
-        setFormData({
-          email: "",
-          password: "",
-        }))
-      : console.log("you cannot submit the form yet");
-  }
+    setLoginFailed(false); // Reset login failure state on new submission
+    try {
+      await login(email, password);
+    } catch (error) {
+      console.error("Login error:", error);
+      setLoginFailed(true);
+      console.log(loginFailed) // Set login failure state on error
+    }
+  };
 
   return (
-    <>
+      <>
       <header className={styles.header}>
         <div className={styles.logoContainer}>
           <img
@@ -42,7 +32,7 @@ export default function Login({ onSubmit, didLoginFail }) {
           <h1 className={styles.title}>Best Bank</h1>
         </div>
       </header>
-      {didLoginFail && <p className={styles.failed}>Login Failed</p>}
+      {loginFailed && <p className={styles.failed}>Login Failed</p>}
       <form onSubmit={handleSubmit} className={styles.formContainer}>
         <fieldset className={styles.formOptContainer}>
           <label htmlFor="email">Username</label>
@@ -51,8 +41,8 @@ export default function Login({ onSubmit, didLoginFail }) {
             placeholder="enter your email"
             id="email"
             name="email"
-            onChange={handleChange}
-            value={formData.email}
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
           />
         </fieldset>
         <fieldset className={styles.formOptContainer}>
@@ -62,12 +52,16 @@ export default function Login({ onSubmit, didLoginFail }) {
             placeholder="enter your password"
             id="password"
             name="password"
-            onChange={handleChange}
-            value={formData.password}
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
           />
         </fieldset>
         <Button type="submit">Login</Button>
       </form>
     </>
+    
   );
 }
+
+
+ 
