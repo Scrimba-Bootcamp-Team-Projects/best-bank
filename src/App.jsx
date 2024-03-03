@@ -7,11 +7,13 @@ import Header from "./components/Header/Header";
 import Login from "./pages/Login";
 import HomePage from "./pages/HomePage";
 import Payments from "./pages/Payments";
+import Logout from "./components/Logout/Logout";
 
 export default function App() {
   const [user, setUser] = useState(null); // Store the user object
   const [userData, setUserData] = useState(null); // Store user-specific data from Firestore
-
+  const [logout, setLogout]= React.useState(false)
+  
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setUser(user);
@@ -38,11 +40,18 @@ export default function App() {
     return () => unsubscribe(); // Cleanup subscription
   }, []);
 
+  const handleLogout = () => {
+    return setLogout(prevLogout=>!prevLogout)
+   };
+
   return (
     <BrowserRouter>
       {user ? (
         <>
-          <Header />
+          <Header 
+          logout={logout}
+          onLogout={handleLogout}/>
+          {logout && <Logout onLogout={handleLogout}/>}
           <Routes>
             <Route path="/" element={<HomePage userData={userData} />} />
             <Route path="/payments" element={<Payments />} />

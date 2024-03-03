@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ui, uiConfig, login } from '../config/firebase';
 import styles from "../App.module.css";
 import Button from "../components/Button/Button";
@@ -8,15 +8,23 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [loginFailed, setLoginFailed] = useState(false);
 
+  useEffect(() => {
+    ui.start('#firebaseui-auth-container', uiConfig);
+    // Cleanup UI to prevent duplicate instances
+    return () => ui.reset();
+  }, []);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoginFailed(false); // Reset login failure state on new submission
     try {
-      await login(email, password);
+      var log= await login(email, password);
+      !log && setLoginFailed(true)
     } catch (error) {
-      console.error("Login error:", error);
       setLoginFailed(true);
-      console.log(loginFailed) // Set login failure state on error
+      // console.error("Login error:", error);
+      // console.log("loginFailed")
+      
     }
   };
 
@@ -58,6 +66,7 @@ export default function Login() {
         </fieldset>
         <Button type="submit">Login</Button>
       </form>
+      <div id="firebaseui-auth-container"></div>
     </>
     
   );

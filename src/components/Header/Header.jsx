@@ -2,21 +2,13 @@
 // It is used in App.js to display the header of the application.
 import React from "react"
 import { Link } from "react-router-dom"
-import { signOut } from "firebase/auth";
-import { auth } from "../../config/firebase"
 import styles from "./Header.module.css";
 import Button from "../Button/Button";
 
-export default function Header() {
-  const handleLogout = () => {
-    signOut(auth).then(() => {
-      // Sign-out successful.
-      console.log("Logout successful");
-    }).catch((error) => {
-      // An error happened.
-      console.error("Logout failed", error);
-    });
-  };
+
+export default function Header({onLogout}) {
+  
+  
 
   return (
     <header className={styles.header}>
@@ -49,7 +41,7 @@ export default function Header() {
         <Link className={styles.buttonLikeLink} href="#">
           Stocks
         </Link>
-        <Button className={styles.buttonLogout} onClick={handleLogout}>Logout</Button>
+        <Button className={styles.buttonLogout} onClick={onLogout}>Logout</Button>
       </nav>
     </header>
   );
