@@ -25,7 +25,7 @@ const auth = getAuth(app);
 const uiConfig = {
   signInOptions: [
     {
-      provider: firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
+      // provider: firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
     },
     {
       provider: EmailAuthProvider.PROVIDER_ID,
@@ -48,7 +48,9 @@ const login = async (email, password) => {
     const errorCode = error.code;
     const errorMessage = error.message;
     // Handle errors here, such as displaying a message to the user
-    console.error("Login error:", errorCode, errorMessage);
+    // console.log("login unsuccesful")
+    // console.error("Login error:", errorCode, errorMessage);
+    return false
   }
 };
 
