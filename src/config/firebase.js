@@ -1,9 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
-import * as firebaseui from 'firebaseui';
-import { EmailAuthProvider, signInWithEmailAndPassword } from "firebase/auth";
-import 'firebaseui/dist/firebaseui.css';
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -22,24 +19,13 @@ const db = getFirestore(app);
 // Authentication
 const auth = getAuth(app);
 
-const uiConfig = {
-  signInOptions: [
-    {
-      // provider: firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
-    },
-    {
-      provider: EmailAuthProvider.PROVIDER_ID,
-      requireDisplayName: false
-    }
-  ],
-  
-};
-
-const ui = new firebaseui.auth.AuthUI(auth);
-
 const login = async (email, password) => {
   try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
     // User is signed in
     const user = userCredential.user;
     // You can use the user object for user information
@@ -48,10 +34,10 @@ const login = async (email, password) => {
     const errorCode = error.code;
     const errorMessage = error.message;
     // Handle errors here, such as displaying a message to the user
-    // console.log("login unsuccesful")
-    // console.error("Login error:", errorCode, errorMessage);
-    return false
+    console.log("login unsuccesful");
+    console.error("Login error:", errorCode, errorMessage);
+    return false;
   }
 };
 
-export { db, auth, ui, uiConfig, login };
+export { db, auth, login };
