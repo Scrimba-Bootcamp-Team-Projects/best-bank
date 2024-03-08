@@ -1,6 +1,10 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -29,15 +33,38 @@ const login = async (email, password) => {
     // User is signed in
     const user = userCredential.user;
     // You can use the user object for user information
-    console.log("Logged in user:", user);
+    // console.log("Logged in user:", user);
   } catch (error) {
-    const errorCode = error.code;
+    // const errorCode = error.code;
     const errorMessage = error.message;
     // Handle errors here, such as displaying a message to the user
-    console.log("login unsuccesful");
-    console.error("Login error:", errorCode, errorMessage);
-    return false;
+    return {
+      failed: true,
+      message: errorMessage.split(" ").slice(1).join(" "), // removing the word firebase
+    };
   }
 };
 
-export { db, auth, login };
+const create = async (email, password) => {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    // User is signed in
+    const user = userCredential.user;
+    // You can use the user object for user information
+    // console.log("Logged in user:", user);
+  } catch (error) {
+    // const errorCode = error.code;
+    const errorMessage = error.message;
+    // Handle errors here, such as displaying a message to the user
+    return {
+      failed: true,
+      message: errorMessage.split(" ").slice(1).join(" "), // removing the word firebase
+    };
+  }
+};
+
+export { db, auth, login, create };
