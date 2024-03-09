@@ -1,9 +1,10 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
-import * as firebaseui from 'firebaseui';
-import { EmailAuthProvider, signInWithEmailAndPassword } from "firebase/auth";
-import 'firebaseui/dist/firebaseui.css';
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -22,36 +23,48 @@ const db = getFirestore(app);
 // Authentication
 const auth = getAuth(app);
 
-const uiConfig = {
-  signInOptions: [
-    {
-      // provider: firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
-    },
-    {
-      provider: EmailAuthProvider.PROVIDER_ID,
-      requireDisplayName: false
-    }
-  ],
-  
-};
-
-const ui = new firebaseui.auth.AuthUI(auth);
-
 const login = async (email, password) => {
   try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
     // User is signed in
     const user = userCredential.user;
     // You can use the user object for user information
-    console.log("Logged in user:", user);
+    // console.log("Logged in user:", user);
   } catch (error) {
-    const errorCode = error.code;
+    // const errorCode = error.code;
     const errorMessage = error.message;
     // Handle errors here, such as displaying a message to the user
-    // console.log("login unsuccesful")
-    // console.error("Login error:", errorCode, errorMessage);
-    return false
+    return {
+      failed: true,
+      message: errorMessage.split(" ").slice(1).join(" "), // removing the word firebase
+    };
   }
 };
 
-export { db, auth, ui, uiConfig, login };
+const create = async (email, password) => {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    // User is signed in
+    const user = userCredential.user;
+    // You can use the user object for user information
+    // console.log("Logged in user:", user);
+  } catch (error) {
+    // const errorCode = error.code;
+    const errorMessage = error.message;
+    // Handle errors here, such as displaying a message to the user
+    return {
+      failed: true,
+      message: errorMessage.split(" ").slice(1).join(" "), // removing the word firebase
+    };
+  }
+};
+
+export { db, auth, login, create };
